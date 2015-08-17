@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+    <head>
+      <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+      <ul class="corset">
+        <li class="one-third">
+          <h3>Sidebar</h3>
+          <img 
+            src="img/sidebar-568.jpg"
+
+            srcset = "img/sidebar-301.jpg 301w,
+                      img/sidebar-568.jpg 568w,
+                      img/sidebar-602.jpg 602w,
+                      img/sidebar-1136.jpg 1136w"
+
+            sizes = "(max-width: 600px) calc(100vw - 32px),
+                     (max-width: 1000px) calc(33.33vw - 32px),
+                     301px" >
+
+        <li class="two-thirds">
+          <h3>Content</h3>
+          <img 
+            src = "img/content-635.jpg"
+
+            srcset = "img/content-635.jpg 635w,
+                      img/content-1270.jpg 1270w"
+
+            sizes = "(max-width: 600px) calc(100vw - 32px),
+                     (max-width: 1000px) calc(66.67vw - 32px),
+                     635px" >
+      </ul>
+    </body>
+</html>
