@@ -8,7 +8,7 @@ img {
 	max-width: 100%;
 }
 
-/* grid */
+/* mini-grid */
 li {
 	display: inline-block;
 	padding: 16px;
@@ -23,13 +23,14 @@ li {
 	background-color: #d5d5d5;
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 600px) {
 	.one-third, .two-thirds {
 		width: 100%;
 	}
 }
 
 
+/* center content with max-width */
 .corset {
 	max-width: 1000px;
 	margin: 0 auto;
