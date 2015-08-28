@@ -35,3 +35,7 @@ li {
 	max-width: 1000px;
 	margin: 0 auto;
 }
+
+.meta {
+	padding: 16px;
+}
