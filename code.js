@@ -3,7 +3,6 @@
   document.getElementById('notice').style.display = "none";
 
   var dppx = window.devicePixelRatio || 0,
-      meta = document.getElementById('js-meta'),
       mq600 = window.matchMedia("(max-width: 600px)"),
       mq1000 = window.matchMedia("(max-width: 1000px)"),
       screenWidth = document.documentElement.clientWidth,
@@ -12,7 +11,8 @@
       sizesSidebar,
       sizesContent;
 
-
+  console.log("sidebar width: " + document.getElementById('img--sidebar').width + " offsetWidth " + document.getElementById('img--sidebar').offsetWidth);
+  console.log("content width: " + document.getElementById('img--content').width + " offsetWidth " + document.getElementById('img--content').offsetWidth);
 
   if (mq600.matches) {
     sizesSidebar = screenWidth - 32;
@@ -26,6 +26,16 @@
     sizesSidebar = 301;
     sizesContent = 635;
   }
+
+  // populate meta
+  document.getElementById('js-meta-1').innerHTML = dppx;
+  document.getElementById('js-meta-2').innerHTML = screenWidth;
+  document.getElementById('js-meta-3').innerHTML = imgSidebar;
+  document.getElementById('js-meta-4').innerHTML = sizesSidebar;
+  document.getElementById('js-meta-5').innerHTML = sizesSidebar * dppx;
+  document.getElementById('js-meta-6').innerHTML = imgContent;
+  document.getElementById('js-meta-7').innerHTML = sizesContent;
+  document.getElementById('js-meta-8').innerHTML = sizesContent * dppx;
 
   meta.innerHTML =  "Device pixel ratio = " + dppx + "<br>" +
                     "Screen size = " + screenWidth + "<br>" +
