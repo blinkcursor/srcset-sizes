@@ -43,3 +43,7 @@ li {
 .meta {
 	padding: 16px;
 }
+
+#notice {
+	display: none;
+}
