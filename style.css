@@ -39,9 +39,8 @@ li {
 }
 a, a:visited {
 	text-decoration: none;
-	color: 00f;
+	color: #00f;
 }
-
 
 /* mini-grid */
 .layout li {
