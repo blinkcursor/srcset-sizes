@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body class="corset__snug">
+    <h1>Testing responsive images with <em>srcset</em> and <em>sizes</em></h1>
+    <p>Making an image-heavy portfolio site for an illustrator, I thought it about time I adopted a responsive images solution to deliver better quality photos to more-capable devices without penalising less-capable devices with bloated download sizes.</p>
+    <p>No art direction was involved and so the preferred solution was to use the new srcset and sizes attributes of the &lt;img&gt; tag. Look no further than <a href="http://blog.cloudfour.com/responsive-images-101-definitions/">this 10-part series by Cloud Four</a> for everything you ever wanted or needed to know about responsive images.</p>
+    <p>To check things were working I started looking at the network requests to confirm what the browser was up to, but was surprised by what I saw, and so I set up this quick test site for a more methodical check.</p>
+    <blockquote>TL;DR: The testing shows that the browser often requests the "wrong" version of an image or, worse, requests multiple sizes of the same image.</blockquote>
+    <p>The test page and results are described below, the test page itself is <a href="test-page.html">here</a>.</p>
+    <p>The test site is a crude page with a flexible-width sidebar and content area, each containing one image, which stack vertically below an arbitrary break point of 600px. The body has a max-width of 1000px.</p>
+    <p>The image sizes I generated are fairly abitrary. For the sidebar and content area images I chose sizes based upon resizing the browser width with a standard definition screen, and then doubled them to produce retina quality images. (I made the 2x images greyscale to help visually differentiate them when viewing the test site, but note that using srcset widths the browser chooses images based purely on dimensions and is unaware of "retina" or "non-retina".)</p>
+    <p>See <a href="http://blog.cloudfour.com/responsive-images-101-part-9-image-breakpoints/">section 9</a> of the Cloud Four series about a more reasoned approach to choosing what image sizes to generate.</p>
+    <p>My &lt;img&gt; tag definitions, then, were</p>
+    <pre>        &lt;img id = "img--sidebar"
+        
+             src = "img/sidebar-568.jpg"
+
+             srcset = "img/sidebar-301.jpg 301w,
+                       img/sidebar-568.jpg 568w,
+                       img/sidebar-602.jpg 602w,
+                       img/sidebar-1136.jpg 1136w"
+
+             sizes = "(max-width: 600px) calc(100vw - 32px),
+                      (max-width: 1000px) calc(33.33vw - 32px),
+                      301px" &gt;
+    </pre>
+    <p>and</p>
+    <pre>       &lt;img id = "img--content"
+
+             src = "img/content-635.jpg"
+
+             srcset = "img/content-635.jpg 635w,
+                       img/content-1270.jpg 1270w"
+
+             sizes = "(max-width: 600px) calc(100vw - 32px),
+                      (max-width: 1000px) calc(66.67vw - 32px),
+                      635px" &gt;
+    </pre>
+    <p>That means the browser has 4 possible sizes to choose from when requesting the sidebar image (301px, 568px, 602px, and 1136px wide), and 2 possible sizes to choose from when requesting the content image (635px and 1270px wide).</p>
+    <p>Before rendering the page the browser can't know what size the image will display at, but we can and do, and we use the sizes attribute to tell the browser in advance.</p>
+    <p>In this example, we are testing against a screen size of 601px on a device with a pixel ratio of 2. The screen width in CSS pixels is 601px and in display pixels is twice that, or 1202px.</p>
+
+    <img src="img/test-sample.png">
+
+    <p>The meta data shows the actual size of each displayed image, as well as a check of our sizes attribute calculation, which confirms that we are correctly seeding the browser with the size the &lt;img&gt; will display at.</p>
+    <p>The size of the &lt;img&gt; in display pixels (width * dpi) is the key number the browser needs to determine which size image to download.</p>
+    <p>I would expect the browser to choose the next size up<a href="#footnote"><super>*</super></a> and then scale it to fit, so in this example for a sidebar image of width 168px displayed 2x it would request the 568px source file. For a content image of width 369px displayed 2x it would request the larger 1270px image.</p>
+    <p>And that's just what happened.</p>
+    <img src="img/test-601x1.png">
+    <p>Woot! It works!</p>
+    <p>Sometimes.</p>
+    <p>For the actual testing I started with a browser width of 300px and  then kept expanding by 100px, first testing with a screen resolution of 1x and then repeating for 2x.</p>
+    <p>Here are the results:</p>
+    <ul class="results">
+      <li>
+        <h3 class="success">300px 1x</h3>
+        <img src="img/test-300x1.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">300px 2x</h3>
+        <img src="img/test-300x2.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="error">requests larger file than needed</span></p>
+      </li>
+      <li>
+        <h3 class="error">400px 1x</h3>
+        <img src="img/test-400x1.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">400px 2x</h3>
+        <img src="img/test-400x2.png">
+        <p>Sidebar: <span class="error">requests 2 sizes (BOTH "wrong")</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">500px 1x</h3>
+        <img src="img/test-500x1.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">500px 2x</h3>
+        <img src="img/test-500x2.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">600px 1x</h3>
+        <img src="img/test-600x1.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">600px 2x</h3>
+        <img src="img/test-600x2.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="success">700px 1x</h3>
+        <img src="img/test-700x1.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="success">700px 2x</h3>
+        <img src="img/test-700x2.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="success">800px 1x</h3>
+        <img src="img/test-800x1.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="success">800px 2x</h3>
+        <img src="img/test-800x2.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="success">900px 1x</h3>
+        <img src="img/test-900x1.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="success">900px 2x</h3>
+        <img src="img/test-900x1.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">1000px 1x</h3>
+        <img src="img/test-1000x1.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">1000px 2x</h3>
+        <img src="img/test-1000x2.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="success">1100px 1x</h3>
+        <img src="img/test-1100x1.png">
+        <p>Sidebar: <span class="success">as expected</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+      <li>
+        <h3 class="error">1100px 2x</h3>
+        <img src="img/test-1100x2.png">
+        <p>Sidebar: <span class="error">requests 2 sizes</span><br>Content: <span class="success">as expected</span></p>
+      </li>
+    </ul>
+
+    <p><strong>That's 18 tests loading 36 images, in which the browser got it "wrong" 10 times, nearly a third of the time.</strong> The most common problem was downloading more than one size of the same image.</p>
+    <p>My testing was limited to using OSX Chrome devtools rather than on a variety of real devices. When I have the chance to test on real retina devices I will update the results.</p>
+    <p><span id="footnote"><super>*</super></span> Note: Although I expected the browser to choose the next size up, when I chose the iPhone 6 size for testing, the content image size in display pixels would be 686px, and rather than go up to the next available size of 1270px and scale it down, the browser chose a slightly smaller image of 635px and upscaled it.</p>
+    <p>The source code is <a href="https://github.com/terraling/srcset-sizes/tree/gh-pages">here</a> on github.</p>
+    <p>If you have comments (please tell me I am doing it all wrong and everything works perfectly!) let me know on <a href="http://twitter.com/ideasrunner">twitter</a> or <a href="https://github.com/terraling/srcset-sizes/issue">create a Github issue</a>.</p>
+  </body>
+</html>
