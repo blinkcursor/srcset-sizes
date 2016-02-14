@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Testing srcset and sizes browser implementation</h1>
+        <div class="screen-width">Screen width = <span class="js-width--screen"></span>px &amp; device pixel ratio = <span class="js-dppx"></span></div>
+
+        <div class="test width-100">
+            <h3><a href="test1.html">Test 3</a></h3>
+            <div class="meta">
+                <p>Image contained in div of width 100%</p>
+                <div class="js-code"></div>
+                <div>
+                    <p>Container width in CSS px = <span class="js-width--css"></span></p>
+                    <p>Container width in display pixels = <span class="js-width--dppx"></span></p>
+                </div>
+                <div>Browser should choose:
+                    <div class="meta__expected">
+                        <span class="w300">300</span>
+                        <span class="w500">500</span>
+                        <span class="w700">700</span>
+                        <span class="w1200">1200</span>
+                    </div>
+                </div>
+            </div>
+            <img srcset="300.jpg 300w,
+                         500.jpg 500w,
+                         700.jpg 700w,
+                         1200.jpg 1200w"
+                 sizes="100vw"
+                 src="700.jpg">
+        </div>
+
+        <footer><a href="index.html">Home page</a></footer>
+        
+        <!-- load script -->
+        <script src="domready.js"></script>
+    </body>
+</html>

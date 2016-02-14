@@ -1,113 +1,94 @@
-/* mini-reset */
 * {
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
 }
 
-html {
-    color: #222;
-    font-size: 1em;
-    font-family: sans-serif;
-    line-height: 1.4;
+body {
+	margin: 0;
+	padding: 0;
 }
 
 img {
-    vertical-align: middle;
-    max-width: 100%;
-    margin: 1em auto;
-    display: block;
+	max-width: 100%;
+	vertical-align: middle;
 }
 
-.clearfix:before,
-.clearfix:after {
-    content: " "; 
-    display: table;
-}
-.clearfix:after {
-    clear: both;
+h1 {
+	text-align: center;
 }
 
-h1,h2,h3,h4,h5,h6 {
-	padding: 1em 0;
-}
-p, blockquote, pre {
-	margin-bottom: 1em;
-}
-li {
-	list-style: none;
-}
-a, a:visited {
-	text-decoration: none;
-	color: #00f;
-}
-
-/* mini-grid */
-.layout li {
-	display: inline-block;
-	padding: 16px;
-	vertical-align: top;
-}
-.one-third {
-	width: 33.333%;
-	background-color: #c0c0c0;
-}
-.two-thirds {
-	width: 66.667%;
-	background-color: #d5d5d5;
-}
-
-@media (max-width: 600px) {
-	.one-third, .two-thirds {
-		width: 100%;
-	}
-}
-
-
-/* center content with max-width */
-.corset {
-	max-width: 1000px;
-	margin: 0 auto;
-}
-.corset__snug {
-	max-width: 740px;
-	margin: 0 auto;
-}
-
-/* styles */
-
-.meta {
-	padding: 16px;
-}
-
-#notice {
-	display: none;
-}
-
-pre {
-	padding: 1em 0;
-	margin-bottom: 1em;
-	background-color: #f0f0f0;
-}
-blockquote {
-	background-color: #666;
-	color: #fff;
+.screen-width {
+	text-align: center;
+	background-color: #ccf;
 	padding: 1em;
+	margin-bottom: 2em;
 	font-size: 125%;
 }
+.screen-width > span {
+	font-weight: bold;
+}
 
-.success {
-	background-color: #9f9;
-}
-.error {
-	background-color: #f99;
-}
-.results li {
+
+.test {
 	margin-bottom: 2em;
 }
-.results h3 {
-	padding-left: 1em;
+
+.width-33 {
+	width: 33.33%;
 }
-.results img {
-	margin-top: 0;
+.width-50 {
+	width: 50%;
+}
+.width-100 {
+	width: 100%;
+}
+
+
+.meta {
+	padding: 1em;
+}
+
+.js-code {
+	font-family: monospace;
+	background-color: #eee;
+	margin: 1em 0;
+}
+
+h3 {
+	margin: 0;
+	padding: 1em;
+	background-color: #ccc;
+}
+
+
+.meta__expected span {
+	display: inline-block;
+	width: 75px;
+	color: #fff;
+	padding: 0.5em;
+	margin: 0.25em;
+	background-color: #999;
+	text-align: center;
+}
+.w300.expected {
+	background-color: #2100FF;
+}
+.w500.expected {
+	background-color: #FF0068;
+}
+.w700.expected {
+	background-color: #00FF8D;
+}
+.w1200.expected {
+	background-color: #FE7F00;
+}
+
+button {
+	margin: 1em;
+	padding: 1em;
+}
+
+footer {
+	padding: 1em;
 }
